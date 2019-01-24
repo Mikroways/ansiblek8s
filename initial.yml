@@ -2,7 +2,7 @@
   become: yes
   tasks:
     - name: create the 'k8su' user
-      user: name=ubuntu append=yes state=present createhome=yes shell=/bin/bash
+      user: name=k8su append=yes state=present createhome=yes shell=/bin/bash
 
     - name: allow 'k8su' to have passwordless sudo
       lineinfile:
