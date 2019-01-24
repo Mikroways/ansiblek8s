@@ -1,0 +1,16 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: create the 'k8su' user
+      user: name=ubuntu append=yes state=present createhome=yes shell=/bin/bash
+
+    - name: allow 'k8su' to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        line: 'k8su ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: set up authorized keys for the k8su user
+      authorized_key: user=k8su key="{{item}}"
+      with_file:
+        - ~/.ssh/id_rsa.pub
